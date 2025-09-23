@@ -2,6 +2,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { PublicRoutes } from './PublicRoutes'
 import { useCallback, useState } from 'react'
 import { PrivateRoutes } from './PrivateRoutes'
+import { SystemBars } from 'react-native-edge-to-edge'
 
 const NavigationRoutes = () => {
   const [user, setUser] = useState(undefined)
