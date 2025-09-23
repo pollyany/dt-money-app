@@ -1,7 +1,7 @@
 import { DismissKeyboardView } from "@/components/DismissKeyboardView";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { View } from "react-native";
 import { LoginForm } from "./LoginForm";
 
 export type PublicStackParamsList = {
