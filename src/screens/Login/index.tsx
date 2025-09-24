@@ -1,9 +1,8 @@
 import { DismissKeyboardView } from "@/components/DismissKeyboardView";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
 import { View } from "react-native";
 import { LoginForm } from "./LoginForm";
 import { AuthHeader } from "@/components/AuthHeader";
+import { useAuthContext } from "@/context/auth.context";
 
 export type PublicStackParamsList = {
   Login: undefined;
@@ -11,8 +10,8 @@ export type PublicStackParamsList = {
 };
 
 export const Login = () => {
-  const navigation =
-    useNavigation<StackNavigationProp<PublicStackParamsList>>();
+  const { user } = useAuthContext();
+
   return (
     <DismissKeyboardView>
       <View className="flex-1 w-[82%] self-center">
