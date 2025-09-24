@@ -1,21 +1,21 @@
-import { Control, Controller, FieldValues, Path } from 'react-hook-form'
+import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import {
   Text,
   TextInput,
   TextInputProps,
   TouchableOpacity,
   View,
-} from 'react-native'
-import { MaterialIcons } from '@expo/vector-icons'
-import { colors } from '@/shared/colors'
-import { useRef, useState } from 'react'
-import clsx from 'clsx'
+} from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
+import { colors } from "@/shared/colors";
+import { useRef, useState } from "react";
+import clsx from "clsx";
 
 interface AppInputParams<T extends FieldValues> extends TextInputProps {
-  control: Control<T>
-  name: Path<T>
-  leftIconName?: keyof typeof MaterialIcons.glyphMap
-  lable?: string
+  control: Control<T>;
+  name: Path<T>;
+  leftIconName?: keyof typeof MaterialIcons.glyphMap;
+  lable?: string;
 }
 
 export const AppInput = <T extends FieldValues>({
@@ -23,16 +23,18 @@ export const AppInput = <T extends FieldValues>({
   name,
   lable,
   leftIconName,
+  secureTextEntry,
   ...rest
 }: AppInputParams<T>) => {
-  const [isFocused, setIsFocused] = useState(false)
-  const inputRef = useRef<TextInput>(null)
+  const [isFocused, setIsFocused] = useState(false);
+  const [showText, setShowText] = useState(secureTextEntry);
+  const inputRef = useRef<TextInput>(null);
 
   const checkFocus = () => {
     if (inputRef.current) {
-      setIsFocused(inputRef.current.isFocused())
+      setIsFocused(inputRef.current.isFocused());
     }
-  }
+  };
 
   return (
     <Controller
@@ -44,8 +46,8 @@ export const AppInput = <T extends FieldValues>({
             {lable && (
               <Text
                 className={clsx(
-                  'mb-2 mt-3 text-base',
-                  isFocused ? 'text-accent-brand' : 'text-gray-600',
+                  "mb-2 mt-3 text-base",
+                  isFocused ? "text-accent-brand" : "text-gray-600"
                 )}
               >
                 {lable}
@@ -57,7 +59,7 @@ export const AppInput = <T extends FieldValues>({
                 <MaterialIcons
                   name={leftIconName}
                   size={24}
-                  color={isFocused ? colors['accent-brand'] : colors.gray[600]}
+                  color={isFocused ? colors["accent-brand"] : colors.gray[600]}
                   className="mr-2"
                 />
               )}
@@ -68,13 +70,25 @@ export const AppInput = <T extends FieldValues>({
                 className="flex-1 text-base text-gray-500"
                 onFocus={checkFocus}
                 onEndEditing={checkFocus}
+                secureTextEntry={showText}
                 ref={inputRef}
                 {...rest}
-              />
+              />{" "}
+              {secureTextEntry && (
+                <TouchableOpacity
+                  onPress={() => setShowText((value) => !value)}
+                >
+                  <MaterialIcons
+                    name={showText ? "visibility" : "visibility-off"}
+                    color={colors.gray[600]}
+                    size={24}
+                  />
+                </TouchableOpacity>
+              )}
             </TouchableOpacity>
           </View>
-        )
+        );
       }}
     />
-  )
-}
+  );
+};
