@@ -1,4 +1,4 @@
-import { createContext, FC, PropsWithChildren, useState } from 'react'
+import { createContext, FC, PropsWithChildren, useContext, useState } from 'react'
 
 export type SnackbarMessageType = 'ERROR' | 'SUCCESS'
 
@@ -35,4 +35,9 @@ export const SnackbarContextProvider: FC<PropsWithChildren> = ({
       {children}
     </SnackbarContext.Provider>
   )
+}
+
+export const useSnackbarContext = () => {
+  const context = useContext(SnackbarContext)
+  return context
 }
