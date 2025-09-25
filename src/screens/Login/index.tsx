@@ -2,7 +2,6 @@ import { DismissKeyboardView } from "@/components/DismissKeyboardView";
 import { View } from "react-native";
 import { LoginForm } from "./LoginForm";
 import { AuthHeader } from "@/components/AuthHeader";
-import { useAuthContext } from "@/context/auth.context";
 
 export type PublicStackParamsList = {
   Login: undefined;
@@ -10,7 +9,6 @@ export type PublicStackParamsList = {
 };
 
 export const Login = () => {
-  const { user } = useAuthContext();
 
   return (
     <DismissKeyboardView>
