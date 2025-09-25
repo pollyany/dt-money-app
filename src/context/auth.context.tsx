@@ -1,11 +1,11 @@
 import { FormLoginParams } from "@/screens/Login/LoginForm";
 import { FormRegisterParams } from "@/screens/Register/RegisterForm";
 import {
-    createContext,
-    FC,
-    PropsWithChildren,
-    useContext,
-    useState,
+  createContext,
+  FC,
+  PropsWithChildren,
+  useContext,
+  useState,
 } from "react";
 import * as authService from "@/shared/services/dt-money/auth.service";
 import { IUser } from "@/shared/interfaces/user-interface";
@@ -31,7 +31,12 @@ export const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
     setToken(token);
   };
 
-  const handleRegister = async (formData: FormRegisterParams) => {};
+  const handleRegister = async (formData: FormRegisterParams) => {
+    const { token, user } = await authService.registerUser(formData);
+    setUser(user);
+    setToken(token);
+  };
+  
   const handleLogout = () => {};
 
   return (
