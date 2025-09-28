@@ -1,63 +1,100 @@
-import { useTransactionContext } from "@/context/transaction.context";
-import { useErrorHandler } from "@/shared/hooks/useErrorHandler";
-import { useEffect } from "react";
-import { FlatList } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { ListHeader } from "./ListHeader";
-import { TransactionCard } from "./TransactionCard";
-import { RefreshControl } from "react-native-gesture-handler";
+import { useTransactionContext } from '@/context/transaction.context'
+import { useErrorHandler } from '@/shared/hooks/useErrorHandler'
+import { useEffect } from 'react'
+import { FlatList } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { ListHeader } from './ListHeader'
+import { TransactionCard } from './TransactionCard'
+import { RefreshControl } from 'react-native-gesture-handler'
 
 export const Home = () => {
   const {
     fetchCategories,
     fetchTransactions,
     transactions,
-    loadMoreTransactions,
     refreshTransactions,
-    loading,
-  } = useTransactionContext();
-  const { handleError } = useErrorHandler();
+    loadMoreTransactions,
+    handleLoadings,
+    loadings,
+  } = useTransactionContext()
+  const { handleError } = useErrorHandler()
 
   const handleFetchCategories = async () => {
     try {
-      await fetchCategories();
+      handleLoadings({
+        key: 'initial',
+        value: true,
+      })
+      await fetchCategories()
     } catch (error) {
-      handleError(error);
+      handleError(error)
+    } finally {
+      handleLoadings({
+        key: 'initial',
+        value: false,
+      })
     }
-  };
+  }
 
   const handleFetchInitialTransactions = async () => {
     try {
-      await fetchTransactions({ page: 1 });
+      handleLoadings({
+        key: 'initial',
+        value: true,
+      })
+      await fetchTransactions({ page: 1 })
     } catch (error) {
-      handleError(error, "Falha ao buscar transações");
+      handleError(error, 'Falha ao buscar transações')
+    } finally {
+      handleLoadings({
+        key: 'initial',
+        value: false,
+      })
     }
-  };
+  }
 
   const handleLoadMoreTransactions = async () => {
     try {
-      await loadMoreTransactions();
+      handleLoadings({
+        key: 'loadMore',
+        value: true,
+      })
+      await loadMoreTransactions()
     } catch (error) {
-      handleError(error, "Falha ao carregar novas transações");
+      handleError(error, 'Falha ao carregar novas transações')
+    } finally {
+      handleLoadings({
+        key: 'loadMore',
+        value: false,
+      })
     }
-  };
+  }
 
   const handleRefreshTransactions = async () => {
     try {
-      await refreshTransactions();
+      handleLoadings({
+        key: 'refresh',
+        value: true,
+      })
+      await refreshTransactions()
     } catch (error) {
-      handleError(error, "Falha ao recarregar as transações");
+      handleError(error, 'Falha ao recarregar as transações')
+    } finally {
+      handleLoadings({
+        key: 'refresh',
+        value: false,
+      })
     }
-  };
+  }
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       await Promise.all([
         handleFetchCategories(),
         handleFetchInitialTransactions(),
-      ]);
-    })();
-  }, []);
+      ])
+    })()
+  }, [])
 
   return (
     <SafeAreaView className="flex-1 bg-background-primary">
@@ -71,11 +108,11 @@ export const Home = () => {
         onEndReachedThreshold={0.5}
         refreshControl={
           <RefreshControl
-            refreshing={loading}
+            refreshing={loadings.refresh}
             onRefresh={handleRefreshTransactions}
           />
         }
       />
     </SafeAreaView>
-  );
-};
+  )
+}
