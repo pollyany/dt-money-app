@@ -1,11 +1,12 @@
-import { useTransactionContext } from '@/context/transaction.context'
-import { useErrorHandler } from '@/shared/hooks/useErrorHandler'
-import { useEffect } from 'react'
-import { FlatList } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { ListHeader } from './ListHeader'
-import { TransactionCard } from './TransactionCard'
-import { RefreshControl } from 'react-native-gesture-handler'
+import { useTransactionContext } from "@/context/transaction.context";
+import { useErrorHandler } from "@/shared/hooks/useErrorHandler";
+import { useEffect } from "react";
+import { FlatList } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { ListHeader } from "./ListHeader";
+import { TransactionCard } from "./TransactionCard";
+import { RefreshControl } from "react-native-gesture-handler";
+import { EmptyList } from "./EmptyList";
 
 export const Home = () => {
   const {
@@ -16,85 +17,85 @@ export const Home = () => {
     loadMoreTransactions,
     handleLoadings,
     loadings,
-  } = useTransactionContext()
-  const { handleError } = useErrorHandler()
+  } = useTransactionContext();
+  const { handleError } = useErrorHandler();
 
   const handleFetchCategories = async () => {
     try {
       handleLoadings({
-        key: 'initial',
+        key: "initial",
         value: true,
-      })
-      await fetchCategories()
+      });
+      await fetchCategories();
     } catch (error) {
-      handleError(error)
+      handleError(error);
     } finally {
       handleLoadings({
-        key: 'initial',
+        key: "initial",
         value: false,
-      })
+      });
     }
-  }
+  };
 
   const handleFetchInitialTransactions = async () => {
     try {
       handleLoadings({
-        key: 'initial',
+        key: "initial",
         value: true,
-      })
-      await fetchTransactions({ page: 1 })
+      });
+      await fetchTransactions({ page: 1 });
     } catch (error) {
-      handleError(error, 'Falha ao buscar transações')
+      handleError(error, "Falha ao buscar transações");
     } finally {
       handleLoadings({
-        key: 'initial',
+        key: "initial",
         value: false,
-      })
+      });
     }
-  }
+  };
 
   const handleLoadMoreTransactions = async () => {
     try {
       handleLoadings({
-        key: 'loadMore',
+        key: "loadMore",
         value: true,
-      })
-      await loadMoreTransactions()
+      });
+      await loadMoreTransactions();
     } catch (error) {
-      handleError(error, 'Falha ao carregar novas transações')
+      handleError(error, "Falha ao carregar novas transações");
     } finally {
       handleLoadings({
-        key: 'loadMore',
+        key: "loadMore",
         value: false,
-      })
+      });
     }
-  }
+  };
 
   const handleRefreshTransactions = async () => {
     try {
       handleLoadings({
-        key: 'refresh',
+        key: "refresh",
         value: true,
-      })
-      await refreshTransactions()
+      });
+      await refreshTransactions();
     } catch (error) {
-      handleError(error, 'Falha ao recarregar as transações')
+      handleError(error, "Falha ao recarregar as transações");
     } finally {
       handleLoadings({
-        key: 'refresh',
+        key: "refresh",
         value: false,
-      })
+      });
     }
-  }
+  };
 
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       await Promise.all([
         handleFetchCategories(),
         handleFetchInitialTransactions(),
-      ])
-    })()
-  }, [])
+      ]);
+    })();
+  }, []);
 
   return (
     <SafeAreaView className="flex-1 bg-background-primary">
@@ -106,6 +107,7 @@ export const Home = () => {
         ListHeaderComponent={ListHeader}
         onEndReached={handleLoadMoreTransactions}
         onEndReachedThreshold={0.5}
+        ListEmptyComponent={loadings.initial ? null : EmptyList}
         refreshControl={
           <RefreshControl
             refreshing={loadings.refresh}
@@ -114,5 +116,5 @@ export const Home = () => {
         }
       />
     </SafeAreaView>
-  )
-}
+  );
+};
