@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC } from "react";
 import {
   ActivityIndicator,
   Modal,
@@ -6,15 +6,15 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
-} from 'react-native'
-import { MaterialIcons } from '@expo/vector-icons'
-import { colors } from '@/shared/colors'
+} from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
+import { colors } from "@/shared/colors";
 
 interface Params {
-  visible: boolean
-  hideModal: () => void
-  handleDeleteTransaction: () => void
-  loading: boolean
+  visible: boolean;
+  hideModal: () => void;
+  handleDeleteTransaction: () => void;
+  loading: boolean;
 }
 
 export const DeleteModal: FC<Params> = ({
@@ -64,7 +64,10 @@ export const DeleteModal: FC<Params> = ({
                 </View>
 
                 <View className="flex-row justify-end gap-4 w-full p-6 pb-0 pr-0">
-                  <TouchableOpacity className="w-[100] bg-none border-2 border-accent-brand items-center justify-center p-3 rounded-md">
+                  <TouchableOpacity
+                    onPress={hideModal}
+                    className="w-[100] bg-none border-2 border-accent-brand items-center justify-center p-3 rounded-md"
+                  >
                     <Text className="text-accent-brand">Cancelar</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
@@ -72,7 +75,7 @@ export const DeleteModal: FC<Params> = ({
                     className="w-[100] bg-accent-red-background-primary items-center justify-center p-3 rounded-md"
                   >
                     <Text className="text-white">
-                      {loading ? <ActivityIndicator /> : 'Apagar'}
+                      {loading ? <ActivityIndicator /> : "Apagar"}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -82,5 +85,5 @@ export const DeleteModal: FC<Params> = ({
         </TouchableWithoutFeedback>
       </Modal>
     </View>
-  )
-}
+  );
+};
