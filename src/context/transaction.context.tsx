@@ -14,9 +14,8 @@ import { TotalTransactions } from "@/shared/interfaces/https/total-transactions"
 import { UpdateTransactionInterface } from "@/shared/interfaces/https/update-transaction-request";
 import { Pagination } from "@/shared/interfaces/https/get-transactions-request";
 
-
 interface FetchTransactionParams {
-  page: number
+  page: number;
 }
 
 export type TransactionContextType = {
@@ -29,6 +28,7 @@ export type TransactionContextType = {
   transactions: Transaction[];
   refreshTransactions: () => void;
   loading: boolean;
+  loadMoreTransactions: () => Promise<void>;
 };
 
 export const TransactionContext = createContext({} as TransactionContextType);
@@ -49,8 +49,9 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
 
   const [pagination, setPagination] = useState<Pagination>({
     page: 1,
-    perPage: 15,
+    perPage: 3,
     totalRows: 0,
+    totalPages: 0,
   });
 
   const refreshTransactions = async () => {
@@ -102,11 +103,17 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
         ...pagination,
         page,
         totalRows: transactionsResponse.totalRows,
+        totalPages: transactionsResponse.totalPages,
       });
       setLoading(false);
     },
     [pagination]
   );
+
+  const loadMoreTransactions = useCallback(async () => {
+    if (loading || pagination.page >= pagination.totalPages) return;
+    fetchTransactions({ page: pagination.page + 1 });
+  }, [loading, pagination]);
 
   return (
     <TransactionContext.Provider
@@ -119,6 +126,7 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
         transactions,
         updateTransaction,
         refreshTransactions,
+        loadMoreTransactions,
         loading,
       }}
     >

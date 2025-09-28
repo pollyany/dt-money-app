@@ -12,6 +12,7 @@ export const Home = () => {
     fetchCategories,
     fetchTransactions,
     transactions,
+    loadMoreTransactions,
     refreshTransactions,
     loading,
   } = useTransactionContext();
@@ -38,10 +39,12 @@ export const Home = () => {
     <SafeAreaView className="flex-1 bg-background-primary">
       <FlatList
         className="bg-background-secondary"
-        ListHeaderComponent={ListHeader}
         keyExtractor={({ id }) => `transaction-${id}`}
         data={transactions}
         renderItem={({ item }) => <TransactionCard transaction={item} />}
+        ListHeaderComponent={ListHeader}
+        onEndReached={loadMoreTransactions}
+        onEndReachedThreshold={0.5}
         refreshControl={
           <RefreshControl
             refreshing={loading}
