@@ -1,11 +1,12 @@
-import { Text, TouchableOpacity, View } from 'react-native'
-import { MaterialIcons } from '@expo/vector-icons'
-import { colors } from '@/shared/colors'
-import { useBottomSheetContext } from '@/context/bottomsheet.context'
-import { DateFilter } from './DateFilter'
+import { Text, TouchableOpacity, View } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
+import { colors } from "@/shared/colors";
+import { useBottomSheetContext } from "@/context/bottomsheet.context";
+import { DateFilter } from "./DateFilter";
+import { CategoryFilter } from "./CategoryFilter";
 
 export const TransactionsFilters = () => {
-  const { closeBottomSheet } = useBottomSheetContext()
+  const { closeBottomSheet } = useBottomSheetContext();
 
   return (
     <View className="flex-1 p-6">
@@ -19,6 +20,7 @@ export const TransactionsFilters = () => {
       </View>
 
       <DateFilter />
+      <CategoryFilter />
     </View>
-  )
-}
+  );
+};

@@ -1,42 +1,42 @@
-import { useTransactionContext } from '@/context/transaction.context'
-import clsx from 'clsx'
-import { format, isValid } from 'date-fns'
-import { useState } from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
-import DateTimePicker from 'react-native-modal-datetime-picker'
+import { useTransactionContext } from "@/context/transaction.context";
+import clsx from "clsx";
+import { format, isValid } from "date-fns";
+import { useState } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
+import DateTimePicker from "react-native-modal-datetime-picker";
 
 export const DateFilter = () => {
-  const { filters, handleFilters } = useTransactionContext()
+  const { filters, handleFilters } = useTransactionContext();
 
-  const [showStartDatePicker, setShowStartDatePicker] = useState(false)
-  const [showEndDatePicker, setShowEndDatePicker] = useState(false)
+  const [showStartDatePicker, setShowStartDatePicker] = useState(false);
+  const [showEndDatePicker, setShowEndDatePicker] = useState(false);
 
   const onStartCancel = () => {
-    setShowStartDatePicker(false)
-  }
+    setShowStartDatePicker(false);
+  };
   const onStartConfirm = (selectedDate: Date) => {
-    setShowStartDatePicker(false)
-    handleFilters({ key: 'from', value: selectedDate })
-  }
+    setShowStartDatePicker(false);
+    handleFilters({ key: "from", value: selectedDate });
+  };
 
   const onEndCancel = () => {
-    setShowEndDatePicker(false)
-  }
+    setShowEndDatePicker(false);
+  };
   const onEndConfirm = (selectedDate: Date) => {
-    setShowEndDatePicker(false)
-    handleFilters({ key: 'to', value: selectedDate })
-  }
+    setShowEndDatePicker(false);
+    handleFilters({ key: "to", value: selectedDate });
+  };
 
   const formatDate = (date?: Date) => {
     if (!date || !isValid(date)) {
-      return undefined
+      return undefined;
     }
-    return format(date, 'dd/MM/yyyy')
-  }
+    return format(date, "dd/MM/yyyy");
+  };
 
   return (
     <>
-      <Text className="text-gray-700 text-lg mb-6">Data</Text>
+      <Text className="text-base font-medium mb-5 text-gray-600">Data</Text>
 
       <View className="flex-row justify-between mb-6">
         <View className="w-[48%]">
@@ -46,11 +46,11 @@ export const DateFilter = () => {
           >
             <Text
               className={clsx(
-                'text-lg',
-                filters.from ? 'text-white' : 'text-gray-700',
+                "text-lg",
+                filters.from ? "text-white" : "text-gray-700"
               )}
             >
-              {formatDate(filters.from) || 'De'}
+              {formatDate(filters.from) || "De"}
             </Text>
           </TouchableOpacity>
         </View>
@@ -62,12 +62,12 @@ export const DateFilter = () => {
           >
             <Text
               className={clsx(
-                'text-lg',
-                filters.to ? 'text-white' : 'text-gray-700',
+                "text-lg",
+                filters.to ? "text-white" : "text-gray-700"
               )}
             >
-              {formatDate(filters.to) || 'Até'}
-            </Text>{' '}
+              {formatDate(filters.to) || "Até"}
+            </Text>{" "}
           </TouchableOpacity>
         </View>
       </View>
@@ -94,5 +94,5 @@ export const DateFilter = () => {
         locale="pt-BR"
       />
     </>
-  )
-}
+  );
+};
